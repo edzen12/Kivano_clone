@@ -2,9 +2,10 @@ from django.db import models
 from mptt.models import MPTTModel
 from mptt.fields import TreeForeignKey
 from apps.common.models import TimeStampedModel, ActiveModel
-
+from apps.catalog.querysets import CategoryQuerySet
 
 class Category(TimeStampedModel,ActiveModel, MPTTModel):
+    objects = CategoryQuerySet.as_manager()
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     parent = TreeForeignKey(

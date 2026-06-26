@@ -1,5 +1,6 @@
 from django.db import models
 from apps.common.models import TimeStampedModel, ActiveModel
+from apps.products.managers import ProductManager
 from apps.catalog.models import Category
 
 
@@ -24,6 +25,7 @@ class StockStatus(models.TextChoices):
 
 
 class Product(TimeStampedModel, ActiveModel):
+    objects = ProductManager()
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT,
         related_name='products'

@@ -52,6 +52,10 @@ class Product(TimeStampedModel, ActiveModel):
     warranty = models.PositiveSmallIntegerField(
         default=12, help_text='В месяцах', verbose_name="Гарантия (месяцев)"
     )
+    stock = models.PositiveIntegerField(
+        default=0, null=True,
+        verbose_name="Количество на складе"
+    )
     stock_status = models.CharField(
         max_length=20, choices=StockStatus.choices,
         default=StockStatus.IN_STOCK,

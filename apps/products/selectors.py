@@ -1,6 +1,15 @@
 from apps.products.models import Product
 
 
+def get_products():
+    return (
+        Product.objects
+        .active()
+        .in_stock()
+        .with_related()
+    )
+
+
 def get_home_products(limit=12):
     # Товары для главной страницы
     return (

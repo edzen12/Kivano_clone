@@ -1,10 +1,5 @@
 from django.views.generic import TemplateView
-from apps.products.selectors import (
-    get_home_products,
-    get_featured_products,
-    get_hit_products,
-    get_new_products
-)
+from apps.products.services import get_home_page_data
 
 
 class HomeView(TemplateView):
@@ -12,8 +7,7 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products']=get_home_products()
-        context['featured_products']=get_featured_products()
-        context['hit_products']=get_hit_products()
-        context['new_products']=get_new_products()
+        context.update(
+            get_home_page_data()
+        )
         return context

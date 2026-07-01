@@ -1,11 +1,11 @@
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from apps.common.api.viewsets import BasedReadOnlyModelViewSet
 from apps.products.selectors import get_products
 from apps.products.api.serializers import (
     ProductListSerializer,
     ProductDetailSerializer,
 )
 
-class ProductViewSet(ReadOnlyModelViewSet):
+class ProductViewSet(BasedReadOnlyModelViewSet):
     lookup_field = 'slug'
     serializer_classes = {
         'list': ProductListSerializer,
@@ -13,9 +13,3 @@ class ProductViewSet(ReadOnlyModelViewSet):
     }
     def get_queryset(self):
         return get_products()
-    
-    def get_serializer_class(self):
-        return self.serializer_classes.get(
-            self.action,
-            ProductListSerializer,
-        )

@@ -1,7 +1,14 @@
 from rest_framework import serializers
+from apps.catalog.models import Category
 from apps.products.models import (
-    Product, Brand, ProductImage
+    Product, Brand, ProductImage, ProductAttribute
 )
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
 
 
 class BrandSerializer(serializers.ModelSerializer):
@@ -31,12 +38,29 @@ class ProductListSerializer(serializers.ModelSerializer):
         )
 
 
+class ProductAttributeSerializer(serializers.ModelSerializer):
+    attribute = serializers.ModelSerializer(read_only=True)
+    class Meta:
+        model = ProductAttribute
+        fields = ('attribute', 'value')
+
+
 class ProductDetailSerializer(serializers.ModelSerializer):
     brand = BrandSerializer(read_only=True)
+    category = CategorySerializer(read_only=True)
     images = ProductImageSerializer(
+        many=True, read_only=True
+    )
+    attributes = ProductAttributeSerializer(
         many=True, read_only=True
     )
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = (
+            'id', 'name', 'slug', 'description',
+            'category', 'brand',
+            'images', 'attributes',
+            'price', 'old_price',
+            'stock_status', 'views_count', 'warranty'
+        )
